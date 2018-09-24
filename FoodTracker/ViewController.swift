@@ -18,6 +18,11 @@ class ViewController: UIViewController, UITextFieldDelegate, UIImagePickerContro
     
     @IBOutlet weak var photoImageView: UIImageView!  //Connecting Image to the code
     
+    
+    @IBOutlet weak var ratingControl: RatingControl!
+    
+    
+    
     override func viewDidLoad() {     //called when view controller's view is loaded from the storyboard
         super.viewDidLoad()
         //Handle the text field's user input through delegate callbacks.
@@ -48,9 +53,12 @@ class ViewController: UIViewController, UITextFieldDelegate, UIImagePickerContro
         dismiss(animated: true, completion: nil)
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+// Local variable inserted by Swift 4.2 migrator.
+let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
+
         //the infor dictionary may contain multiple representation of the image, so we're justmaking sure we have the original.
-        guard let selectedImage = info[UIImagePickerControllerOriginalImage] as? UIImage
+        guard let selectedImage = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.originalImage)] as? UIImage
             else {
                 fatalError("Expected a dictionary containing an image, but was provided the following: \(info)")
         }
@@ -84,12 +92,15 @@ class ViewController: UIViewController, UITextFieldDelegate, UIImagePickerContro
         present(imagePickerController, animated: true, completion: nil)
     }
     
-    
-    @IBAction func setDefaultLabeltext(_ sender: UIButton) {
-        mealNameLabel.text = "Default Text"
-    }
-    
-   
-    
 }
 
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any]) -> [String: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
+	return input.rawValue
+}
