@@ -1,33 +1,51 @@
 //
-//  ViewController.swift
+//  MealViewController.swift
 //  FoodTracker
 //
 //  Created by Pratheeksha Ravindra Naik on 2018-09-22.
 //  Copyright © 2018 com/uregina. All rights reserved.
 //
 
+import os.log //importa unified logging system
 import UIKit
 
-class ViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {   //Acts as valid text deligate and to adopt picker and controller delegates
+class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {   //Acts as valid text deligate and to adopt picker and controller delegates
     
     //MARK: Properties
 
     @IBOutlet weak var nameTextField: UITextField!   //Linking text-field to code
     
-    @IBOutlet weak var mealNameLabel: UILabel!  //Connecting Label to code
     
     @IBOutlet weak var photoImageView: UIImageView!  //Connecting Image to the code
     
     
     @IBOutlet weak var ratingControl: RatingControl!
     
+    @IBOutlet weak var saveButton: UIBarButtonItem!
+    
+    
+/* This value is either passed by 'MealTableViewController' in 'prepare(for: sender:)'
+ or constructed as part of adding a new meal */
+    
+    var meal: Meal?
     
     
     override func viewDidLoad() {     //called when view controller's view is loaded from the storyboard
         super.viewDidLoad()
+       
         //Handle the text field's user input through delegate callbacks.
-        
         nameTextField.delegate = self  //Refers to ViewControllerClass
+        
+        //Set up views if editing an existing Meal
+        if let meal = meal {
+            navigationItem.title = meal.name
+            nameTextField.text = meal.name
+            photoImageView.image = meal.photo
+            ratingControl.rating = meal.rating
+        }
+        
+        //Enable the save button only if tje text field has a valid Meal Name
+        updateSaveButtonState()
     }
 
     //MARK: UITxtFieldDelegate
@@ -39,10 +57,15 @@ class ViewController: UIViewController, UITextFieldDelegate, UIImagePickerContro
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        //Function to resign the first-responder status
+        updateSaveButtonState()
+        navigationItem.title = textField.text                           
         
-        mealNameLabel.text = textField.text
-        
+    }
+    
+    //gets called when an editing session begins
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        //Disable save button while editing.
+        saveButton.isEnabled = false
     }
     
     //MARK: UIImagePickerControllerDelegate
@@ -69,6 +92,33 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
         //dismiss the picker.
         dismiss(animated: true, completion: nil)
     }
+    //MARK: Navigation
+    
+    @IBAction func Cancel(_ sender: UIBarButtonItem) {
+        
+        dismiss(animated: true, completion: nil)
+    }
+    
+    
+    //This method lets us configure a view controller before it's presented.
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        
+        // configure the destination view controller only when the save button is pressed.
+        guard let button = sender as? UIBarButtonItem, button === saveButton else {
+            os_log("The save button was not pressed, cancelling", log: OSLog.default, type: .debug)
+            return
+        }
+        
+        //creating constants
+        let name = nameTextField.text ?? ""
+        let photo = photoImageView.image
+        let rating = ratingControl.rating
+        
+        //Setting the name of the meal to be passed to MealtableViewController after the unwind segue.
+        meal = Meal(name: name, photo: photo, rating: rating)
+        
+    }
     
     //MARK: Actions
     
@@ -92,6 +142,13 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
         present(imagePickerController, animated: true, completion: nil)
     }
     
+    //MARK: Private Methods
+    
+    private func updateSaveButtonState() {
+        //Disable the Save button if text fiel is empty.
+        let text = nameTextField.text ?? ""
+        saveButton.isEnabled = !text.isEmpty
+    }
 }
 
 
