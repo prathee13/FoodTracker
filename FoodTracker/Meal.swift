@@ -6,10 +6,19 @@
 //  Copyright © 2018 com/uregina. All rights reserved.
 //
 
+import os.log
 import UIKit
 
-public class Meal {
+public class Meal: NSObject, NSCoding {
     
+    //MARK: Types
+    
+    struct PropertyKey {
+        static let name = "name"
+        static let photo = "photo"
+        static let rating = "rating"
+        
+    }
     //MARK: Properties
     
     var name: String
@@ -24,7 +33,7 @@ public class Meal {
     
     init?(name: String, photo: UIImage?, rating: Int) {
         
-        //the name must not be empty
+        //the name must not be empty - we
         guard !name.isEmpty else {
             return nil
         }
@@ -40,5 +49,32 @@ public class Meal {
         self.rating = rating
         
     }
-
+    //MARK: NSCoding
+    public func encode(with aCoder: NSCoder) {
+        aCoder.encode(name, forKey: PropertyKey.name)
+        aCoder.encode(photo, forKey: PropertyKey.photo)
+        aCoder.encode(rating, forKey: PropertyKey.rating)
+        
+        //Because photo is an optional property of Meal, we use conditional cast
+        
+        
+        let rating = aDecoder.decodeIntegerForKey(PropertyKey.rating)
+        
+        //Must call designated initializer.
+        self.init(name: name, photo: photo, rating: rating)
+    }
+    
+     required convenience init?(coder aDecoder: NSCoder) {
+        //The name is required. if we cannot decode a name string, the initializer should fail.
+        
+        guard let name = aDecoder.decodeObject(forKey: PropertyKey.name) as? String
+        else
+        {
+            os_log("Unable to decode the name of the meal object.", log: OSLog.default, type: .debug)
+        }
+        return nil
+    }
+    
+    //because
+    
 }
