@@ -1,8 +1,12 @@
 //
-//  AppDelegate.swift
+//  @Name: AppDelegate.swift
+//  @Purpose: To create a window where the contents of the application are drawn and to understand the transitions.
+//          by creating an entry point
+//
 //  FoodTracker
 //
 //  Created by Pratheeksha Ravindra Naik on 2018-09-22.
+//
 //  Copyright © 2018 com/uregina. All rights reserved.
 //
 
@@ -11,9 +15,16 @@ import UIKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    var window: UIWindow?
+    var window: UIWindow?  //storing the reference to the app's window
 
 
+    //The below listed functions help the applicaiton object in communictiong with the application delegate
+    //during transition
+    
+    //Each of these methods have a default behaviour.
+    
+    //No changes made. 
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         return true

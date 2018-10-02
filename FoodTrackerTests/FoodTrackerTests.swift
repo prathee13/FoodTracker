@@ -1,6 +1,8 @@
 //
-//  FoodTrackerTests.swift
-//  FoodTrackerTests
+//  @Name: FoodTrackerTests.swift
+//  @Purpose: Tests the App
+//
+// FoodTrackerTests
 //
 //  Created by Pratheeksha Ravindra Naik on 2018-09-22.
 //  Copyright © 2018 com/uregina. All rights reserved.
@@ -15,6 +17,8 @@ class FoodTrackerTests: XCTestCase {
     
     //Confirm that the Meal Initializer returns a Meal object when passed valid parameters
     
+    //Function that describes positive Test Cases
+    
     func testMealInitializationSucceeds() {
         //Zero rating
         let zeroRatingMeal = Meal.init(name: "Zero", photo: nil, rating: 0)
@@ -26,6 +30,7 @@ class FoodTrackerTests: XCTestCase {
         
     }
     
+    //Function that test negative cases
     func testMealInitializationFails() {
         //Negative rating
         let negativeRatingMeal = Meal.init(name: "Negative", photo: nil, rating: -1)

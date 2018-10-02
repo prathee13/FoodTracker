@@ -1,6 +1,7 @@
 //
-//  Meal.swift
-//  FoodTracker
+//  @Name: Meal.swift
+//  @Purpose: To update the data models.
+//FoodTracker
 //
 //  Created by Pratheeksha Ravindra Naik on 2018-09-24.
 //  Copyright © 2018 com/uregina. All rights reserved.

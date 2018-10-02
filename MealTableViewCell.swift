@@ -1,5 +1,6 @@
 //
-//  MealTableViewCell.swift
+//  @Name: MealTableViewCell.swift
+//  @Purpose: To update the table views in the starting screen of the app.
 //  FoodTracker
 //
 //  Created by Pratheeksha Ravindra Naik on 2018-09-28.

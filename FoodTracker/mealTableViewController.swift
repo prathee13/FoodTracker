@@ -1,5 +1,6 @@
 //
-//  mealTableViewController.swift
+//  @Name: mealTableViewController.swift
+//  @Purpose: To load data onto the table views
 //  FoodTracker
 //
 //  Created by Pratheeksha Ravindra Naik on 2018-09-28.
@@ -29,20 +30,23 @@ class mealTableViewController: UITableViewController {
             // Load the sample data.
             loadSampleMeals()
         }
-        
-        //Load sample data
-        loadSampleMeals()
     }
 
     // MARK: - Table view data source
 
-    ///The following function completes the table view
+    /*
+     Function to load the data.
+     Takes UITableView and an integer indicating the number of Rows and returns the count
+     */
     override func numberOfSections(in tableView: UITableView) -> Int {
         
         return 1
     }
     
-    //Tells the table in how many rows to display in the given section
+    /*
+     Function to inform the table in how many rows to display in the given section to load the data.
+     Takes UITableView and an integer indicating the number of Rows and returns the count
+     */
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return meals.count    //the total number of meals that we created i.e. 5; that many rows to be displayed
@@ -73,7 +77,7 @@ class mealTableViewController: UITableViewController {
     
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
+        //nothing
         return true
     }
  
@@ -114,7 +118,7 @@ class mealTableViewController: UITableViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-       super.prepare(for: segue, sender: sender)
+       super.prepare(for: segue, sender: sender)  //A call to superclass's implementation
         
         switch(segue.identifier ?? "") {
             
@@ -173,8 +177,10 @@ class mealTableViewController: UITableViewController {
 
     //MARK: private Methods
     
-    //Load data to the app
+    //Function to load data to the app - the image, name of the food and the rating.
+    
     private func loadSampleMeals() {
+        
         let photo1 = UIImage(named: "Meal1")
         let photo2 = UIImage(named: "Meal2")
         let photo3 = UIImage(named: "Meal3")
@@ -211,8 +217,8 @@ class mealTableViewController: UITableViewController {
         guard let Meal7 = Meal(name: "Burger with Fries", photo: photo7, rating: 4) else {
             fatalError("Unable to instantiate Meal7")
         }
-        //adding them all to the array
         
+        //adding them all to the array
         meals += [Meal1, Meal2, Meal3, Meal4, Meal5, Meal6, Meal7]
         
     }

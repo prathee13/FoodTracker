@@ -1,5 +1,7 @@
 //
-//  RatingControl.swift
+//  @Name: RatingControl.swift
+//  @Purpose: To control the rating of the stars and update the views of the
+//  buttons - before, after and while they are pressed.
 //  FoodTracker
 //
 //  Created by Pratheeksha Ravindra Naik on 2018-09-22.
@@ -11,21 +13,23 @@ import UIKit
 @IBDesignable class RatingControl: UIStackView { 
     
     //MARK: Properties
-    private var ratingButtons = [UIButton]()
+    private var ratingButtons = [UIButton]()   //Variable indicating the list of buttons
     
-    //intial value and if at all rating changes later
-    var rating = 0 {
+    //intial value and if rating changes later
+    
+    var rating = 0 {                           //Variable to control the user's rating
         didSet {
             updateButtonSelectionStates()
         }
     }
+    
+    //Variables to define the size of the buttons.
     
     @IBInspectable var starSize: CGSize = CGSize(width: 44.0, height: 44.0){
         didSet {
             setupButtons()
         }
     }
-    
     
     @IBInspectable var starCount: Int = 5 {
         didSet{
@@ -35,6 +39,11 @@ import UIKit
     
 
     //MARK: Initialization
+    
+    /*
+     Initializers are place-holders which call the superclass' implementation
+    */
+    
     override init(frame: CGRect) {
         super.init(frame: frame);
         setupButtons();
@@ -46,6 +55,11 @@ import UIKit
     }
     
     //MARK: Button Action
+    
+    /*
+     Function to calculate the rating buttons.
+    */
+    
     @objc func ratingButtonTapped(button: UIButton) {
         guard let index = ratingButtons.index(of: button) else {
             fatalError("The button, \(button), is not in the ratingButtons array: \(ratingButtons)")
@@ -65,10 +79,16 @@ import UIKit
     }
     
   
-   
-    
     
     //MARK: Private methods
+    
+    /*
+    
+     Function to set up the buttons below the image to faciliate the user to rate a food item.
+     Calls updateButtonelectionStates() to indicate the changes when the user rates it.
+ 
+    */
+    
     
     private func setupButtons() {
         
@@ -77,9 +97,10 @@ import UIKit
             removeArrangedSubview(button)
             button.removeFromSuperview()
         }
+        
         ratingButtons.removeAll()
         
-        //Loading the stars from assets catalogue
+        //Loading the image (i.e. the stars) from assets catalogue to set the appropriate image to the right code
         
         let bundle = Bundle(for: type(of: self))
         
@@ -95,22 +116,22 @@ import UIKit
         //create the button
         let button = UIButton();
         
-         //setting the button images
-        button.setImage(emptyStar, for: .normal)
-        button.setImage(filledStar, for: .selected)
-        button.setImage(highlightedStar, for: .highlighted)
+        //Buttons have different states and can even be in two different states at the same time.
+        button.setImage(emptyStar, for: .normal)                           //Empty star for default state.
+        button.setImage(filledStar, for: .selected)                        //Filled when user just taps it
+        button.setImage(highlightedStar, for: .highlighted)                //On tapping it remains in 'highlight' stage
         button.setImage(highlightedStar, for: [.highlighted, .selected])
         
         
-        //constraints - making it a fixed size object
+        //Constraints for making the buttons a fixed size object
         button.translatesAutoresizingMaskIntoConstraints = false;
         button.heightAnchor.constraint(equalToConstant: starSize.height).isActive = true;
         button.widthAnchor.constraint(equalToConstant: starSize.width).isActive = true;
         
-        //accessability label
+        //Accessability Label - a phrase that describes the control or view
         button.accessibilityLabel = "Set \(index+1) star rating"
         
-        //setup the button action
+        //Setting up the button action
         button.addTarget(self, action: #selector(RatingControl.ratingButtonTapped(button:)), for: .touchUpInside)
         
         //adding button to stack
@@ -123,7 +144,10 @@ import UIKit
         updateButtonSelectionStates()
 }
 
-    //method to update selection state of the buttons
+    /*
+       Function to update the states of the button as the rating variable is updated and the position.
+     Is called by the setupButtons() method.
+    */
     
     private func updateButtonSelectionStates() {
         for (index, button) in ratingButtons.enumerated() {
@@ -150,7 +174,7 @@ import UIKit
                 valueString = "\(rating) stars set"
             }
             
-            //Assigning
+            //Assigning accessibility value and hint. The former is the current value of an element and the latter is the phrase that reminds the result of the action.
             button.accessibilityHint = hintString
             button.accessibilityValue = valueString
         }

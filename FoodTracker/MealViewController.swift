@@ -1,22 +1,26 @@
 //
-//  MealViewController.swift
+// @Name: MealViewController.swift
+// @Purpose: C
 //  FoodTracker
 //
 //  Created by Pratheeksha Ravindra Naik on 2018-09-22.
+//  Modified by Pratheeksha Ravindra Naik on 2018-09-28
 //  Copyright © 2018 com/uregina. All rights reserved.
 //
 
-import os.log //importa unified logging system
+import os.log //To import unified logging system
 import UIKit
 
-class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {   //Acts as valid text deligate and to adopt picker and controller delegates
+class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    //Acts as valid text deligate and to adopt picker and controller delegates
     
     //MARK: Properties
 
-    @IBOutlet weak var nameTextField: UITextField!   //Linking text-field to code
+    @IBOutlet weak var nameTextField: UITextField!   //Creating an outlet for text-field
     
     
-    @IBOutlet weak var photoImageView: UIImageView!  //Connecting Image to the code
+    @IBOutlet weak var photoImageView: UIImageView!  //Creating an outlet for the image
     
     
     @IBOutlet weak var ratingControl: RatingControl!
@@ -29,11 +33,12 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
     
     var meal: Meal?
     
-    
-    override func viewDidLoad() {     //called when view controller's view is loaded from the storyboard
+    //Function that is called when view controller's view is loaded from the storyboard
+    override func viewDidLoad() {
         super.viewDidLoad()
        
         //Handle the text field's user input through delegate callbacks.
+        
         nameTextField.delegate = self  //Refers to ViewControllerClass
         
         //Set up views if editing an existing Meal
@@ -48,13 +53,29 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
         updateSaveButtonState()
     }
 
-    //MARK: UITxtFieldDelegate
+    //MARK: UITextFieldDelegate
+    
+    /*
+     
+     Function to specify what the text editor must do when the user taps a button to end the editing.
+     It hides the keyboard and accepts a text field parameter.
+     Returns either 'true' or 'false'
+     
+    */
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        //Hide the keyboard
-        textField.resignFirstResponder()
+        
+        textField.resignFirstResponder()   //Hide the keyboard
         return true    //Should the system process the Return key or not?
+        
     }
+    
+    /*
+     
+     Function to read the value entered by the user in the text field and instruct what to be done with it.
+     This function is called after textFieldShouldReturn and accepts a textField parameter.
+     
+    */
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         updateSaveButtonState()
@@ -62,7 +83,7 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
         
     }
     
-    //gets called when an editing session begins
+    //Function that gets called when an editing session begins
     func textFieldDidBeginEditing(_ textField: UITextField) {
         //Disable save button while editing.
         saveButton.isEnabled = false
@@ -70,17 +91,33 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
     
     //MARK: UIImagePickerControllerDelegate
     
+    /*
+     
+     Function to cancel the selection of an image from the photo gallery when the user selects 'Cancel' Button.
+     Accepts UIImagePickerController
+ 
+    */
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        //Dismiss the picker, if the user cancelled.
-        dismiss(animated: true, completion: nil)
+        
+        dismiss(animated: true, completion: nil)  //Dismiss the picker, if the user cancelled.
+        
     }
     
+    /*
+     
+     Function to cancel the selection of an image from the photo gallery when the user selects 'Cancel' Button.
+     Accepts UIImagePickerController
+     
+     */
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-// Local variable inserted by Swift 4.2 migrator.
-let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
 
-        //the infor dictionary may contain multiple representation of the image, so we're justmaking sure we have the original.
+        // Local variable inserted by Swift 4.2 migrator.
+
+        let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)  //info dictionary uses the original image that the user picked
+
+        //the info dictionary may contain multiple representation of the image, so we're justmaking sure we have the original.
         guard let selectedImage = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.originalImage)] as? UIImage
             else {
                 fatalError("Expected a dictionary containing an image, but was provided the following: \(info)")
@@ -92,6 +129,7 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
         //dismiss the picker.
         dismiss(animated: true, completion: nil)
     }
+    
     //MARK: Navigation
     
     @IBAction func Cancel(_ sender: UIBarButtonItem) {
@@ -110,7 +148,7 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
         }
     }
     
-    //This method lets us configure a view controller before it's presented.
+    //Function to configure a view controller before it's presented.
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         
@@ -131,6 +169,13 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
     }
     
     //MARK: Actions
+    
+    /*
+ 
+     Function to allow the user to add images to the app from their photo gallery.
+     Accepts a UITapGestureRecognizer as a parameter.
+     
+    */
     
     @IBAction func selectImageFromPhotoLibrary(_ sender: UITapGestureRecognizer) {
         
