@@ -11,9 +11,16 @@
 import os.log //To import unified logging system
 import UIKit
 
+/*
+
+ Class that is incharge of the storyboard and the objects there-in.
+ - Contains variables for text-fields, images, rating with the provision of saving them.
+ - Contains functions that faciliate actions on these objects such as editing the text field and hiding the keyboard, picking the image from the gallery and saving the details.
+ - Class inheerits from various delegates that provide a protocol to implement the functions.
+ 
+ */
+
 class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
-    //Acts as valid text deligate and to adopt picker and controller delegates
     
     //MARK: Properties
 
@@ -23,9 +30,9 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
     @IBOutlet weak var photoImageView: UIImageView!  //Creating an outlet for the image
     
     
-    @IBOutlet weak var ratingControl: RatingControl!
+    @IBOutlet weak var ratingControl: RatingControl! //Creating an outlet for the rating
     
-    @IBOutlet weak var saveButton: UIBarButtonItem!
+    @IBOutlet weak var saveButton: UIBarButtonItem!  //Creating an outlet for the Save Button
     
     
 /* This value is either passed by 'MealTableViewController' in 'prepare(for: sender:)'
@@ -33,7 +40,10 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
     
     var meal: Meal?
     
-    //Function that is called when view controller's view is loaded from the storyboard
+    /*
+     Function that is called when the application loads.
+     
+     */
     override func viewDidLoad() {
         super.viewDidLoad()
        
@@ -49,7 +59,7 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
             ratingControl.rating = meal.rating
         }
         
-        //Enable the save button only if tje text field has a valid Meal Name
+        //Enable the save button only if the text field has a valid Meal Name
         updateSaveButtonState()
     }
 
@@ -58,8 +68,10 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
     /*
      
      Function to specify what the text editor must do when the user taps a button to end the editing.
-     It hides the keyboard and accepts a text field parameter.
-     Returns either 'true' or 'false'
+     
+     - Parameter: UITextField object
+     
+     - Returns: Boolean value - true or false
      
     */
     
@@ -71,9 +83,9 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
     }
     
     /*
+    Function to read the value entered by the user in the text field and instruct what to be done with it.
      
-     Function to read the value entered by the user in the text field and instruct what to be done with it.
-     This function is called after textFieldShouldReturn and accepts a textField parameter.
+     - Parameter: UITextField object
      
     */
     
@@ -83,7 +95,13 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
         
     }
     
-    //Function that gets called when an editing session begins
+    /*
+     Function that is called when the editing session begins to save and update the changes made.
+     
+     - Parameter: UITextField object
+     
+     */
+   
     func textFieldDidBeginEditing(_ textField: UITextField) {
         //Disable save button while editing.
         saveButton.isEnabled = false
@@ -93,21 +111,21 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
     
     /*
      
-     Function to cancel the selection of an image from the photo gallery when the user selects 'Cancel' Button.
-     Accepts UIImagePickerController
+     Function that is called when the user 'cancels' the image that they were going to select from the Photo Gallery.
+     
+     - Parameter: UIImagePickerController object
  
     */
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         
-        dismiss(animated: true, completion: nil)  //Dismiss the picker, if the user cancelled.
+        dismiss(animated: true, completion: nil)
         
     }
     
     /*
      
-     Function to cancel the selection of an image from the photo gallery when the user selects 'Cancel' Button.
-     Accepts UIImagePickerController
+    Swift 4.2 migratory code for the above function.
      
      */
     
@@ -132,6 +150,13 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
     
     //MARK: Navigation
     
+    /*
+    Function that is called when 'Cancel' button is pressed. Function is updated to handle the cancell effect depending on wether the user made any changes or not.
+    
+    - Parameter: UIBarButtonItem object
+ 
+    */
+    
     @IBAction func Cancel(_ sender: UIBarButtonItem) {
         //Depending on style of presentation (modal or push presentation), this view controller needs to be dismissed in two different ways
         let isPresentingInAddMealMode = presentingViewController is UINavigationController
@@ -148,7 +173,12 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
         }
     }
     
-    //Function to configure a view controller before it's presented.
+    /*
+     Function to update the appropriate changes done by the user before presenting it.
+     
+     - Parameter: UIStoryboardSegue object and a sender
+     
+     */
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         
@@ -173,7 +203,8 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
     /*
  
      Function to allow the user to add images to the app from their photo gallery.
-     Accepts a UITapGestureRecognizer as a parameter.
+     
+     Parameter: UITapGestureRecognizer as a parameter.
      
     */
     
@@ -199,8 +230,12 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
     
     //MARK: Private Methods
     
+    /*
+     Function that ensures the Save button is disabled if the text field is blank.
+     - Parameter: UIBarButtonItem object
+     
+     */
     private func updateSaveButtonState() {
-        //Disable the Save button if text fiel is empty.
         let text = nameTextField.text ?? ""
         saveButton.isEnabled = !text.isEmpty
     }

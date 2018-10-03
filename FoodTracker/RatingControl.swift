@@ -10,27 +10,32 @@
 
 import UIKit
 
+/*
+
+ Class to control the Rating. Inherits UItackView
+ Includes Data
+ */
+
 @IBDesignable class RatingControl: UIStackView { 
     
     //MARK: Properties
     private var ratingButtons = [UIButton]()   //Variable indicating the list of buttons
     
-    //intial value and if rating changes later
-    
+ 
     var rating = 0 {                           //Variable to control the user's rating
         didSet {
             updateButtonSelectionStates()
         }
     }
     
-    //Variables to define the size of the buttons.
+    //Variables to define the size of the buttons - height and weight, and to set up accordingly.
     
     @IBInspectable var starSize: CGSize = CGSize(width: 44.0, height: 44.0){
         didSet {
             setupButtons()
         }
     }
-    
+    //Variables to control the count of the buttons i.e 5 in our case.
     @IBInspectable var starCount: Int = 5 {
         didSet{
             setupButtons()
@@ -57,7 +62,11 @@ import UIKit
     //MARK: Button Action
     
     /*
-     Function to calculate the rating buttons.
+     
+     Function to calculate the rating as per the input from the user.
+     
+     Parameter: Accepts UIButton object to recognize the touch.
+     
     */
     
     @objc func ratingButtonTapped(button: UIButton) {
@@ -86,6 +95,7 @@ import UIKit
     
      Function to set up the buttons below the image to faciliate the user to rate a food item.
      Calls updateButtonelectionStates() to indicate the changes when the user rates it.
+     
  
     */
     
@@ -134,10 +144,10 @@ import UIKit
         //Setting up the button action
         button.addTarget(self, action: #selector(RatingControl.ratingButtonTapped(button:)), for: .touchUpInside)
         
-        //adding button to stack
+        //Adding the button to stack
         addArrangedSubview(button);
         
-        //add the new button to the rating button array
+        //Adding the new button to the rating button array
         ratingButtons.append(button);
         
     }
@@ -145,8 +155,9 @@ import UIKit
 }
 
     /*
-       Function to update the states of the button as the rating variable is updated and the position.
-     Is called by the setupButtons() method.
+       Function to update the states of the button as the rating variable is updated and the position upto where the user has tapped.
+     
+       Is called by the setupButtons() method.
     */
     
     private func updateButtonSelectionStates() {

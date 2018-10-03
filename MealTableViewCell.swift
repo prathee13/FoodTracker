@@ -13,11 +13,11 @@ class MealTableViewCell: UITableViewCell {
 
     //MARK: properties - creating outlets
     
-    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var nameLabel: UILabel!  //Creates outlet for the Name Label
     
-    @IBOutlet weak var photoImageView: UIImageView!
+    @IBOutlet weak var photoImageView: UIImageView! //Creates outlet for the Photo Image View.
     
-    @IBOutlet weak var ratingControl: RatingControl!
+    @IBOutlet weak var ratingControl: RatingControl! //Creates outlet for the Rating.
     
     
     override func awakeFromNib() {
@@ -25,6 +25,7 @@ class MealTableViewCell: UITableViewCell {
         // Initialization code
     }
 
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 

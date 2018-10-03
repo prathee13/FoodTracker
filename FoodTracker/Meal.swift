@@ -9,6 +9,11 @@
 
 import os.log
 import UIKit
+/*
+ 
+ A class that includes all the Meal items such as the name, photo and rating with an initialization method
+ 
+ */
 
 class Meal: NSObject, NSCoding {
     
@@ -35,17 +40,22 @@ class Meal: NSObject, NSCoding {
     
     //MARK: initializers
 
-    //initialization should fail if there is no name or if the rating is negative.
+    /*
+     
+     Funtion to initialize the properties declared above. But prior to initialization, it checks if no name is specified or if the rating is negative or greater than 5, under which the initalization fails.
+     
+     
+    */
    
     
     init?(name: String, photo: UIImage?, rating: Int) {
         
-        //the name must not be empty - we
+        //the name must not be empty
         guard !name.isEmpty else {
             return nil
         }
         
-       //The rating should be between 0 and 5
+       //The rating should be between 0 and 5 - nothing less, nothing more.
         guard (rating >= 0) && (rating <= 5) else {
             return nil
         }

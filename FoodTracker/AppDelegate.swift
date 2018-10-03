@@ -18,38 +18,81 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?  //storing the reference to the app's window
 
 
-    //The below listed functions help the applicaiton object in communictiong with the application delegate
-    //during transition
+    /*
+     
+     The below listed functions help the applicaiton object in communicating with the application delegate
+    during transition.
     
-    //Each of these methods have a default behaviour.
+    Each of these methods have a default behaviour.
+ 
+    */
     
-    //No changes made. 
+    /*
+     Informs a set of activities that are to be done when the application launches.
+     
+     - Parameter recipient: Application Launching Options
+     
+     - Returns: A boolean value - true, when the application is launched.
+     
+     */
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         return true
     }
-
+    
+    /*
+     Function to pause ongoing tasks either voluntarily by the user or de to some other interruptions such as
+       receving a text message or a call.
+     
+     - Parameter recipient: UIApplication Object
+     
+     */
     func applicationWillResignActive(_ application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
+       
     }
 
+    /*
+     Function to keep the application running in the background (if permitted).
+     In such a case, this function is run, instead of terminating.
+     
+     - Parameter recipient: UI application.
+  
+     */
     func applicationDidEnterBackground(_ application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        
+    }
+    
+    /*
+   Function to enter the foreground from the background
+     
+     - Parameter recipient: UI application object
+     
+     */
+    
+    func applicationWillEnterForeground(_ application: UIApplication) {
+       
     }
 
-    func applicationWillEnterForeground(_ application: UIApplication) {
-        // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
-    }
+    /*
+     Function to restart any activities that were paused previously.
+     
+     - Parameter recipient: UI Application object
+     
+     */
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+  
     }
 
+    /**
+     Function that saves the necessary chnages made b ythe user before quitting.
+     
+     - Parameter recipient: UI Application Object
+     
+     */
     func applicationWillTerminate(_ application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+      
     }
 
 
